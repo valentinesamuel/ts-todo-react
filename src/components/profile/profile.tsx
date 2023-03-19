@@ -1,7 +1,9 @@
 import { FC, ReactElement } from 'react';
 import { Avatar, Box, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
 
-const Profile: FC = (): ReactElement => {
+const Profile: FC = (props: any): ReactElement => {
+  const { name = 'John' } = props;
   return (
     <Box
       display="flex"
@@ -22,7 +24,7 @@ const Profile: FC = (): ReactElement => {
         </Typography>
       </Avatar>
       <Typography variant="h6" color="text.primary">
-        Welcome, Valentine
+        {`Welcome, ${name[0]} ${name[name.length]}`}
       </Typography>
       <Typography variant="body1" color="text.primary">
         This is your personal task manager
@@ -32,3 +34,7 @@ const Profile: FC = (): ReactElement => {
 };
 
 export default Profile;
+
+Profile.propTypes = {
+  name: PropTypes.string,
+};
