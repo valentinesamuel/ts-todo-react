@@ -2,7 +2,11 @@ import { FC, ReactElement } from 'react';
 import { Avatar, Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const Profile: FC = (props: any): ReactElement => {
+interface IProfile {
+  name?: string;
+}
+
+const Profile: FC<IProfile> = (props): ReactElement => {
   const { name = 'John' } = props;
   return (
     <Box
@@ -20,11 +24,11 @@ const Profile: FC = (props: any): ReactElement => {
         }}
       >
         <Typography variant="h4" color="text.primary">
-          VS
+          {`${name[0]}`}
         </Typography>
       </Avatar>
       <Typography variant="h6" color="text.primary">
-        {`Welcome, ${name[0]} ${name[name.length]}`}
+        {`Welcome, ${name}`}
       </Typography>
       <Typography variant="body1" color="text.primary">
         This is your personal task manager
@@ -36,5 +40,5 @@ const Profile: FC = (props: any): ReactElement => {
 export default Profile;
 
 Profile.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
 };
