@@ -2,6 +2,8 @@ import { FC, ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Avatar, Typography } from '@mui/material';
 import { TaskHeader } from './_taskHeader';
+import { TaskDescription } from './_taskDescription';
+import { TaskFooter } from './_TaskFooter';
 
 const Task: FC = (props): ReactElement => {
   return (
@@ -21,6 +23,8 @@ const Task: FC = (props): ReactElement => {
       }}
     >
       <TaskHeader />
+      <TaskDescription />
+      <TaskFooter />
     </Box>
   );
 };
