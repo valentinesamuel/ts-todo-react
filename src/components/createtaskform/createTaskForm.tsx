@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState, useEffect } from 'react';
+import { FC, ReactElement, useState, useEffect, useContext } from 'react';
 import {
   Box,
   Typography,
@@ -17,6 +17,7 @@ import { Priority } from './enum/Priority';
 import { useMutation } from 'react-query';
 import { sendAPIRequest } from '../../helpers/sendApiRequest';
 import { ICreateTask } from '../taskarea/interfaces/iCrreateTask';
+import { TaskStatusChangedContext } from '../../context';
 
 const CreateTaskForm: FC = (): ReactElement => {
   const [title, setTitle] = useState<string | undefined>(undefined);
@@ -25,6 +26,8 @@ const CreateTaskForm: FC = (): ReactElement => {
   const [status, setStatus] = useState<string>(Status.todo);
   const [priority, setPriority] = useState<string>(Priority.normal);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
+
+const tasksUpdatedContext = useContext(TaskStatusChangedContext)
 
   const createTaskMutation = useMutation((data: ICreateTask) =>
     sendAPIRequest('http://localhost:3200/tasks', 'POST', data),
@@ -47,6 +50,7 @@ const CreateTaskForm: FC = (): ReactElement => {
   useEffect(() => {
     if (createTaskMutation.isSuccess) {
       setShowSuccess(true);
+      tasksUpdatedContext.toggle()
     }
     const successTimeout = setTimeout(() => {
       setShowSuccess(false);

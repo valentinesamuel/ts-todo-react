@@ -18,7 +18,10 @@
     "plugins": [
         "react", "@typescript-eslint", "prettier"
     ],
-    "rules": {},
+    "rules": {
+        "no-empty-function":"off",
+        "@typesscript-eslint/no-empty-function":"off"
+    },
     "settings": {
         "import/resolver": {
             "typescript": {}
