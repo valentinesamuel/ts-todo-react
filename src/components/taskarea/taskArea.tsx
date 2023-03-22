@@ -8,6 +8,7 @@ import { sendAPIRequest } from '../../helpers/sendApiRequest';
 import { ITaskApi } from './interfaces/iTaskApi';
 import { Status } from '../createtaskform/enum/Status';
 import { IUpdateTask } from '../createtaskform/interfaces/iUpdateTask';
+import { countTasks } from './helpers/countTasks';
 
 const TaskArea: FC = (): ReactElement => {
   const { data, isLoading, dataUpdatedAt, refetch, error } = useQuery(
@@ -34,6 +35,18 @@ const TaskArea: FC = (): ReactElement => {
     });
   }
 
+  function markCompleteHandler(
+    e:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.MouseEvent<HTMLAnchorElement>,
+    id: string,
+  ) {
+    updateTaskMutation.mutate({
+      id,
+      status: Status.completed,
+    });
+  }
+
   return (
     <Grid item md={8} px={4}>
       <Box mb={8} px={4}>
@@ -50,9 +63,18 @@ const TaskArea: FC = (): ReactElement => {
           xs={12}
           mb={8}
         >
-          <TaskCounter />
-          <TaskCounter />
-          <TaskCounter />
+          <TaskCounter
+            status={Status.completed}
+            count={data ? countTasks(data, Status.completed) : undefined}
+          />
+          <TaskCounter
+            status={Status.inProgress}
+            count={data ? countTasks(data, Status.inProgress) : undefined}
+          />
+          <TaskCounter
+            status={Status.todo}
+            count={data ? countTasks(data, Status.todo) : undefined}
+          />
         </Grid>
         <Grid item display="flex" flexDirection="column" xs={10} md={8}>
           <>
@@ -85,6 +107,7 @@ const TaskArea: FC = (): ReactElement => {
                     priority={each.priority}
                     status={each.status}
                     onStatusChange={onStatusChangeHandler}
+                    onClick={markCompleteHandler}
                   />
                 ) : (
                   false
